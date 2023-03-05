@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package net.stickmix.donate;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+service DonateService {
+  rpc getBalance(google.protobuf.StringValue) returns (google.protobuf.Int32Value);
+  rpc transaction(Transaction) returns (google.protobuf.Empty);
+  rpc buyProduct(Purchase) returns (Purchase);
+  rpc getTransactions(GetTransactionsRequest) returns (stream Transaction);
+  rpc getUserPurchases(google.protobuf.StringValue) returns (stream Purchase);
+  rpc getPurchasesByServerType(google.protobuf.StringValue) returns (stream Purchase);
+}
+
+message GetTransactionsRequest {
+  string user = 1;
+  bool sender = 2;
+}
+
+message Transaction {
+  string id = 1;
+  int64 time = 2;
+  string sender = 3;
+  string receiver = 4;
+  int32 amount = 5;
+}
+
+message Purchase {
+  string id = 1;
+  string buyer = 2;
+  string product = 3;
+  int32 price = 4;
+  int64 time = 5;
+  string serverType = 6;
+  string transactionId = 7;
+}
